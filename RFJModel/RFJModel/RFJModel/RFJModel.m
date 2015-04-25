@@ -297,7 +297,30 @@ static char* s_RFJModelPropertyTypeName[] =
 		}
 	}
 }
-
+- (NSDictionary *)jsonDict{
+    return [[self jsonMutableDict] copy];
+}
+- (NSString *)jsonString{
+    NSDictionary *jsonDictionary = [self jsonMutableDict];
+    NSError *err;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary
+                                                       options:0
+                                                         error:&err];
+    if (err) return nil;
+    return [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+}
+- (NSMutableDictionary *)jsonMutableDict{
+    NSMutableDictionary * mDic = [NSMutableDictionary dictionary];
+    const char *className = object_getClassName([self class]);
+    NSDictionary *mapPropertyInfos = [[RFJModel modelInfos] objectForKey:[NSValue valueWithPointer:className]];
+    [mapPropertyInfos enumerateKeysAndObjectsUsingBlock:^(NSString *key, RFJModelPropertyInfo *info, BOOL *stop) {
+        id value = [self valueForKey:info.name];
+        if (value)
+            [mDic setValue:value forKey:key];
+    }];
+    return mDic;
+}
 + (NSString *)toStringWithJsonValue:(id)value
 {
 	if (value == nil || value == [NSNull null])
