@@ -102,6 +102,7 @@
 - (void)fillWithJsonDict:(NSDictionary *)jsonDict;
 
 - (NSDictionary *)jsonDict;
+- (NSMutableDictionary *)jsonMutableDict;
 - (NSString *)jsonString;
 
 + (NSString *)toStringWithJsonValue:(id)value;

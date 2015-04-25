@@ -297,9 +297,11 @@ static char* s_RFJModelPropertyTypeName[] =
 		}
 	}
 }
+
 - (NSDictionary *)jsonDict{
     return [[self jsonMutableDict] copy];
 }
+
 - (NSString *)jsonString{
     NSDictionary *jsonDictionary = [self jsonMutableDict];
     NSError *err;
@@ -310,6 +312,7 @@ static char* s_RFJModelPropertyTypeName[] =
     return [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     
 }
+
 - (NSMutableDictionary *)jsonMutableDict{
     NSMutableDictionary * mDic = [NSMutableDictionary dictionary];
     const char *className = object_getClassName([self class]);
